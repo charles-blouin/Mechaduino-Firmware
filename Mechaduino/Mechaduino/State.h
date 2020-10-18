@@ -25,6 +25,9 @@ extern volatile float u_3;
 extern volatile float e_3;
 extern volatile long counter;
 
+extern volatile float u_serial;
+extern volatile float yw_serial;
+
 extern volatile long wrap_count;
 extern volatile float y_1;
 
@@ -39,11 +42,3 @@ extern int dir;
 
 extern bool print_yw;     //for step response, under development...
 #endif
-
-
-
-
-
-
-
-

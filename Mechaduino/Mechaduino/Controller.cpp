@@ -106,6 +106,19 @@ void TC5_Handler() {                // gets called with FPID frequency
         print_counter = 0;
       }
     }
+
+    print_counter += 1;
+    u_serial += u;
+    yw_serial += yw;   
+    if (print_counter >= 4){    // print position every 4th loop
+      SerialUSB.print('u');
+      SerialUSB.print(int(u_serial*250.0)); // Sending ints
+      SerialUSB.print('a');
+      SerialUSB.println(int(yw_serial*250.0)); // Sending ints
+      print_counter = 0;
+      u_serial = 0;
+      yw_serial = 0;
+    }
     TC5->COUNT16.INTFLAG.bit.OVF = 1;    // writing a one clears the flag ovf flag
     TEST1_LOW();            //for testing the control loop timing
 
@@ -113,11 +126,3 @@ void TC5_Handler() {                // gets called with FPID frequency
 
 
 }
-
-
-
-
-
-
-
-
