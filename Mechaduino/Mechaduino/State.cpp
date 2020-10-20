@@ -38,6 +38,7 @@ volatile float DTerm;
 
 
 char mode;
+char cogging_mode = 'o';
 volatile bool dir = false;  
 
 bool print_yw = false;      //for step response, under development...

@@ -38,6 +38,7 @@ extern int stepNumber; // step index for cal routine
 extern volatile float ITerm;
 extern volatile float DTerm;
 extern char mode;
+extern char cogging_mode;
 extern int dir;
 
 extern bool print_yw;     //for step response, under development...

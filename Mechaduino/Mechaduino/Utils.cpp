@@ -492,6 +492,19 @@ void serialCheck() {        //Monitors serial for commands.  Must be called in r
         stepResponse();
         break;
 
+      case 'i':
+        SerialUSB.println("Cogging correction off");
+        cogging_mode = 'i';
+        break;
+        
+      case 'o':
+        SerialUSB.println("Cogging correction on");
+        cogging_mode = 'o';
+        break;
+
+      case 'u':
+        cogging_mode = 'u';
+        break;
 
       default:
         break;

@@ -16,7 +16,8 @@ void TC5_Handler() {                // gets called with FPID frequency
      
     TEST1_HIGH();  //digitalWrite(3, HIGH);       //Fast Write to Digital 3 for debugging
 
-    y = lookup[readEncoder()];                    //read encoder and lookup corrected angle in calibration lookup table
+    int encoderValue = readEncoder();             //read encoder and lookup corrected angle in calibration lookup table
+    y = lookup[encoderValue];                    
    
     if ((y - y_1) < -180.0) wrap_count += 1;      //Check if we've rotated more than a full revolution (have we "wrapped" around from 359 degrees to 0 or ffrom 0 to 359?)
     else if ((y - y_1) > 180.0) wrap_count -= 1;
@@ -67,6 +68,12 @@ void TC5_Handler() {                // gets called with FPID frequency
 
     y_1 = y;  //copy current value of y to previous value (y_1) for next control cycle before PA angle added
 
+    // Cogging correction
+
+    if (cogging_mode == 'o')
+      {
+      u += cogging[encoderValue];
+      }
     
     if (u > 0)          //Depending on direction we want to apply torque, add or subtract a phase angle of PA for max effective torque.  PA should be equal to one full step angle: if the excitation angle is the same as the current position, we would not move!  
       {                 //You can experiment with "Phase Advance" by increasing PA when operating at high speeds
@@ -107,18 +114,21 @@ void TC5_Handler() {                // gets called with FPID frequency
       }
     }
 
-    print_counter += 1;
-    u_serial += u;
-    yw_serial += yw;   
-    if (print_counter >= 4){    // print position every 4th loop
-      SerialUSB.print('u');
-      SerialUSB.print(int(u_serial*250.0)); // Sending ints
-      SerialUSB.print('a');
-      SerialUSB.println(int(yw_serial*250.0)); // Sending ints
-      print_counter = 0;
-      u_serial = 0;
-      yw_serial = 0;
-    }
+    if (cogging_mode == 'u')
+      {
+      print_counter += 1;
+      u_serial += u;
+      yw_serial += yw;   
+      if (print_counter >= 4){    // print position every 4th loop
+        SerialUSB.print('u');
+        SerialUSB.print(int(u_serial*250.0)); // Sending ints
+        SerialUSB.print('a');
+        SerialUSB.println(int(yw_serial*250.0)); // Sending ints
+        print_counter = 0;
+        u_serial = 0;
+        yw_serial = 0;
+        }
+      }
     TC5->COUNT16.INTFLAG.bit.OVF = 1;    // writing a one clears the flag ovf flag
     TEST1_LOW();            //for testing the control loop timing
 

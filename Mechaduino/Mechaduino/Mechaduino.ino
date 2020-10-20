@@ -23,6 +23,10 @@
  e  -  check encoder diagnositics
  q  -  parameter query
 
+ i - Cogging correction off
+ o - Cogging correction on
+ u - print effort and angle to serial and turn off cogging correction.
+
  x  -  position mode
  v  -  velocity mode
  t  -  torque mode
