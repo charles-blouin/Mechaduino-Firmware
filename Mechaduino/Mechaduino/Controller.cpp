@@ -120,6 +120,11 @@ void TC5_Handler() {                // gets called with FPID frequency
       u_serial += u;
       yw_serial += yw;   
       if (print_counter >= 4){    // print position every 4th loop
+
+        // state.n = 10;
+        // state.c = 20;
+        // SerialUSB.write((uint8_t*) &state, sizeof(frame_t));
+        // SerialUSB.println('1');
         SerialUSB.print('u');
         SerialUSB.print(int(u_serial*250.0)); // Sending ints
         SerialUSB.print('a');

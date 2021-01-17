@@ -28,6 +28,12 @@ extern volatile long counter;
 extern volatile float u_serial;
 extern volatile float yw_serial;
 
+struct frame_t {
+  int c;
+  int n;
+}; 
+extern struct frame_t state;
+
 extern volatile long wrap_count;
 extern volatile float y_1;
 
