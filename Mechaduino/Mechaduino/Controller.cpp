@@ -36,8 +36,9 @@ void TC5_Handler() {                // gets called with FPID frequency
             ITerm += (pKi * e);                             //Integral wind up limit
             if (ITerm > 150.0) ITerm = 150.0;
             else if (ITerm < -150.0) ITerm = -150.0;          
-           
-            DTerm = pLPFa*DTerm -  pLPFb*pKd*(yw-yw_1);
+
+            v = v*0.99 + 6.5*(yw-yw_1);     //0.1 * 650 = 65
+            // DTerm = pLPFa*DTerm -  pLPFb*pKd*(yw-yw_1);
            
             u = (pKp * e) + ITerm + DTerm;
            
@@ -59,6 +60,7 @@ void TC5_Handler() {                // gets called with FPID frequency
           break;
           
         case 't':         // torque control
+          v = v*0.95 + 325*(yw-yw_1);     //0.05 * 6500 = 325
           u = 1.0 * r ;
           break;
         default:

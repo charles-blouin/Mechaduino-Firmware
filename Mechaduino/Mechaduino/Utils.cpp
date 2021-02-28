@@ -392,7 +392,7 @@ float read_angle()
   return lookup[encoderReading / avg];
 }
 
-
+String toSend;
 void serialCheck() {        //Monitors serial for commands.  Must be called in routinely in loop for serial interface to work.
 
   if (SerialUSB.available()) {
@@ -401,7 +401,20 @@ void serialCheck() {        //Monitors serial for commands.  Must be called in r
 
     switch (inChar) {
 
-
+      case 'r':  //new setpoint. First because we need a fast response time.
+        // SerialUSB.println("Enter setpoint:");
+        while (SerialUSB.available() == 0)  {}
+        r = SerialUSB.parseFloat();
+        break;
+        
+      case 'P':             //print for machine read
+        // SerialUSB.print(micros());
+        // SerialUSB.print("t");
+        SerialUSB.print(yw);
+        SerialUSB.print("v");
+        SerialUSB.println(v);
+        break;
+      
       case 'p':             //print
         print_angle();
         break;
@@ -434,8 +447,8 @@ void serialCheck() {        //Monitors serial for commands.  Must be called in r
 
       case 'y':
         r = (read_angle()+(360.0 * wrap_count));          // hold the current position
-        SerialUSB.print("New setpoint ");
-        SerialUSB.println(r, 2);
+        // SerialUSB.print("New setpoint ");
+        // SerialUSB.println(r, 2);
         enableTCInterrupts();      //enable closed loop
         break;
 
@@ -445,12 +458,7 @@ void serialCheck() {        //Monitors serial for commands.  Must be called in r
         analogFastWrite(VREF_1, 0);                       
         break;
 
-      case 'r':             //new setpoint
-        SerialUSB.println("Enter setpoint:");
-        while (SerialUSB.available() == 0)  {}
-        r = SerialUSB.parseFloat();
-        SerialUSB.println(r);
-        break;
+      
 
       case 'x':
         mode = 'x';           //position loop
@@ -493,12 +501,12 @@ void serialCheck() {        //Monitors serial for commands.  Must be called in r
         break;
 
       case 'i':
-        SerialUSB.println("Cogging correction off");
+        // SerialUSB.println("Cogging correction off");
         cogging_mode = 'i';
         break;
         
       case 'o':
-        SerialUSB.println("Cogging correction on");
+        // SerialUSB.println("Cogging correction on");
         cogging_mode = 'o';
         break;
 

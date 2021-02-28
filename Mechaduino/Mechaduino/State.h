@@ -31,7 +31,9 @@ extern volatile float yw_serial;
 struct frame_t {
   int c;
   int n;
-}; 
+};
+extern volatile unsigned long sendTimer;
+
 extern struct frame_t state;
 
 extern volatile long wrap_count;

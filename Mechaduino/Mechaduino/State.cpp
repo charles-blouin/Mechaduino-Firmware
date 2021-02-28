@@ -33,6 +33,7 @@ struct frame_t {
 };
 
 volatile struct frame_t state;
+volatile unsigned long sendTimer;
 
 volatile long wrap_count = 0;  //keeps track of how many revolutions the motor has gone though (so you can command angles outside of 0-360)
 volatile float y_1 = 0;
